@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<bean id="sitemanager" class="com.slrclub.biz.net.OMGSlrSiteManager">
+		<property name="slrOnhttpParams" ref="slrOnHttpParamsBean"></property>
+		<property name="slrOnUrl"        value="http://m.slrclub.com/login/process.php"></property>
+		<property name="slrOnHttpMethod" value="POST"></property>
+	</bean>
+
+	<bean id="slrOnHttpParamsBean" class="com.slrclub.biz.net.OMGSlrHttpParams">
+		<property name="bodyParams">
+			<map>
+				<entry key="user_id"   value="blueherald" />
+				<entry key="password"  value="j9552037" />
+				<entry key="r_url"     value="http://m.slrclub.com/l/free" />
+				<entry key="ip_secure" value="global" />
+				<entry key="id_save"   value="on" />
+				<entry key="x"         value="53" />
+				<entry key="y"         value="14" />
+			</map>
+		</property>
+		
+		<property name="headerParams">
+			<map>
+				<entry key="content-type" 	  value="application/x-www-form-urlencoded; charset=UTF-8" />
+				<entry key="accept-encoding"  value="gzip, deflate" />
+				<entry key="referer"          value="http://m.slrclub.com/l/free"/>
+			</map>
+		</property>
+	</bean>
+
+
+	<bean id="hellomusic" class="com.slrclub.ext.HelloJazz">
+	</bean>
+
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="com.slrclub.free com.slrclub.itfext com.slrclub.free.service"></context:component-scan>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/dbpool.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClass}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${jdbc.min.size}" />
+		<property name="maxActive" value="${jdbc.max.size}" />
+		<property name="maxIdle" value="5" />
+		<property name="minIdle" value="2" />
+	</bean>
+	
+    <!-- transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- enable component scanning and autowire (beware that this does not enable mapper scanning!) -->    
+    <!-- <context:component-scan base-package="org.mybatis.jpetstore.service" /> -->
+
+    <!-- enable transaction demarcation with annotations -->
+    <tx:annotation-driven />
+
+    <!-- define the SqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="com.slrclub.free.domain" />
+    </bean>
+
+    <!-- scan for mappers and let them be autowired -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.slrclub.free.persistence" />
+    </bean>
+
+</beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.slrclub.free.persistence.SlrContentsItemMapper">
+
+  <cache />
+
+  <!-- NOW() -->
+  <insert id="insertContentsItem" parameterType="SlrContentsItem" >
+    INSERT INTO mxctlist (cid, uid, ctime, cready, ctitle)
+    VALUES (#{cid}, #{uid}, #{ctime}, #{cready}, #{ctitle})
+  </insert>
+
+  <select id="getContentsItemByCid" parameterType="int" resultType="SlrContentsItem">
+    SELECT cid, uid, ctime, ctitle
+    FROM mxctlist
+    WHERE cid = #{cid}
+  </select>
+
+  <insert id="insertContents" parameterType="SlrContentsItem" >
+    INSERT INTO mxcontents (cid, contents)
+    VALUES (#{cid},#{contents})
+  </insert>
+  
+<!--   <select id="getContentsItemListByPage" parameterType="map" resultType="SlrContentsItem">
+    SELECT cid, uid, ctime, ctitle
+    FROM mxctlist
+	ORDER BY cid DESC
+    LIMIT #{defaultSize}# OFFSET #{defaultoffset}#
+  </select> -->
+
+</mapper>
