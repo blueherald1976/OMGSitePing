@@ -28,8 +28,8 @@
 	<bean id="slrOnHttpParamsBean" class="com.slrclub.biz.net.OMGSlrHttpParams">
 		<property name="bodyParams">
 			<map>
-				<entry key="user_id"   value="blueherald" />
-				<entry key="password"  value="j9552037" />
+				<entry key="user_id"   value="" />
+				<entry key="password"  value="" />
 				<entry key="r_url"     value="http://m.slrclub.com/l/free" />
 				<entry key="ip_secure" value="global" />
 				<entry key="id_save"   value="on" />
