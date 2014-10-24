@@ -18,6 +18,12 @@
     WHERE cid = #{cid}
   </select>
 
+  <select id="getContentsItemByCid" resultType="hashmap">
+    SELECT cid, uid, ctime, ctitle
+    FROM mxctlist
+    WHERE cid = #{cid}
+  </select>
+
   <insert id="insertContents" parameterType="SlrContentsItem" >
     INSERT INTO mxcontents (cid, contents)
     VALUES (#{cid},#{contents})
