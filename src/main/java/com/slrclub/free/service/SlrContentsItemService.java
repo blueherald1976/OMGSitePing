@@ -23,13 +23,23 @@ public class SlrContentsItemService {
 		itemMapper.insertContents(contents);
 	}
 	
-	public void insertItem(ArrayList<SlrContentsItem> slrContentsItemList) {
+
+	public void insertContents(ArrayList<SlrContentsItem> slrContentsItemList) {
 		if(slrContentsItemList == null) {
 			return;
 		}
 		
 		for (SlrContentsItem contents : slrContentsItemList) {
 			insertContents(contents);
+		}
+	}
+	
+	public void insertItem(ArrayList<SlrContentsItem> slrContentsItemList) {
+		if(slrContentsItemList == null) {
+			return;
+		}
+		
+		for (SlrContentsItem contents : slrContentsItemList) {
 			insertItem(contents);
 		}
 	}
